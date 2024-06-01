@@ -68,6 +68,3 @@ export const updateTodoApi = async (id: string, data: Omit<ITodo, 'id'>): Promis
     return Promise.reject(error);
   }
 };
-
-
-
