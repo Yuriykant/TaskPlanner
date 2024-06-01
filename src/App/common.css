@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap");
+
+:root {
+  --constant-black: #262a2f;
+  --constant-white: #fff;
+  --constant-red: #f53;
+  --background-zero: var(--constant-white);
+  --foreground-primary: var(--constant-black);
+  --outer-focus-border: 4px solid var(--constant-red);
+  --inner-focus-border: 0 0 0 4px var(--constant-red) inset;
+}
+
+*:focus-visible {
+  outline: var(--outer-focus-border);
+}
+
+a {
+  cursor: pointer;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  background-color: var(--background-zero);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: var(--foreground-primary);
+}
