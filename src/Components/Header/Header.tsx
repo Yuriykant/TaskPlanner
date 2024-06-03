@@ -1,17 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '@features/auth/AuthContextProvider';
-
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import LogoutIcon from '@mui/icons-material/Logout';
+import React, { useState, useEffect, FC } from 'react';
+import { useAuth } from '@features/auth/сontext/AuthContextProvider';
 import { useNavigate } from 'react-router-dom';
+import { months } from '@features/calendar/utils/calendarUtils';
+import './Header.css';
+import Avatar from '@mui/material/Avatar';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 
-export const Header = () => {
+interface HeaderProps {
+  currentDate: Date;
+  onPrev: () => void;
+  onToday: () => void;
+  onNext: () => void;
+}
+
+export const Header: FC<HeaderProps> = ({ currentDate, onPrev, onToday, onNext }) => {
   const { logOut, user } = useAuth();
   const [userName, setUserName] = useState('');
   const [avatar, setAvatar] = useState<string>();
+
+  const headerMonth = months[currentDate.getMonth()];
+  const headerYear = currentDate.getFullYear();
 
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -37,23 +47,32 @@ export const Header = () => {
   }, [user]);
 
   return (
-    <Grid container justifyContent="space-between" alignItems="center" marginBottom="20px">
-      <Grid item xs={4} container justifyContent="flex-start" alignItems="center">
+    <div className="header">
+      <div className="header__user">
         <Avatar src={avatar} alt={userName} sx={{ marginLeft: '10px', width: 60, height: 60 }} />
-        <Typography variant="body1" sx={{ color: 'gray', marginLeft: '15px', fontSize: '20px' }}>
-          {userName}
-        </Typography>
-      </Grid>
-      <Grid item xs={4} textAlign="center">
-        <Typography variant="h1" gutterBottom sx={{ fontSize: 42, color: 'gray' }}>
-          Задачи
-        </Typography>
-      </Grid>
-      <Grid item xs={4} container justifyContent="flex-end">
-        <IconButton onClick={handleLogout}>
+        <span className="header__username">{userName}</span>
+      </div>
+      <div className="header__date">
+        <h1 className="header__title">
+          {headerMonth} {headerYear}
+        </h1>
+        <div className="header__buttons">
+          <button className="header__button" onClick={onPrev}>
+            <ArrowBackIosOutlinedIcon />
+          </button>
+          <button className="header__button" onClick={onToday}>
+            текущий месяц
+          </button>
+          <button className="header__button" onClick={onNext}>
+            <ArrowForwardIosOutlinedIcon />
+          </button>
+        </div>
+      </div>
+      <div className="header__logout">
+        <button className="header__logout-button" onClick={handleLogout}>
           <LogoutIcon />
-        </IconButton>
-      </Grid>
-    </Grid>
+        </button>
+      </div>
+    </div>
   );
 };

@@ -1,0 +1,38 @@
+.day__cell-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+  border-radius: 10px;
+  border: 1px solid var(--constant-gray);
+  font-size: 18px;
+  color: var(--foreground-primary);
+}
+
+.day__cell-container:hover {
+  background-color: var(--color-hover);
+}
+
+.day__taskAdd {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  display: flex;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.today {
+  background: var(--constant-greenyellow);
+}
+
+.untilToday {
+  background-color: var(--constant-gray);
+}
+
+.weekend {
+  background: var(--color-weekend);
+}

@@ -1,0 +1,56 @@
+.calendar-popup {
+  background: var(--constant-gray);
+  color: var(--constant-white);
+  padding: 16px;
+  position: relative;
+  border: none;
+  border-radius: 10px;
+}
+
+.calendar-popup__close {
+  float: right;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.calendar-popup__input {
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 16px;
+  line-height: 24px;
+  background: var(--constant-white);
+  color: var(--constant-black);
+  border-radius: 4px;
+  border: none;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.calendar-popup__textarea {
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 16px;
+  line-height: 24px;
+  background: var(--constant-white);
+  color: var(--constant-black);
+  border-radius: 4px;
+  margin-bottom: 16px;
+  border: none;
+  box-sizing: border-box;
+}
+
+.calendar-popup__btn {
+  width: 200px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  color: var(--constant-black);
+}
+
+.calendar-popup__btn:hover {
+  transition: 0.5s;
+  transform: scale(0.95);
+}

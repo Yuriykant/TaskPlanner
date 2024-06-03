@@ -1,17 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap");
 
 :root {
-  --constant-black: #262a2f;
+  --color-hover: yellow;
+  --color-weekend: rgba(235, 77, 77, 0.15);
+  --constant-greenyellow: greenyellow;
+  --constant-black: #304053;
+  --constant-darck: #18191d;
   --constant-white: #fff;
-  --constant-red: #f53;
+  --constant-gray: #d4d4d4;
+  --constant-accent: #575757;
+  --constant-accent-hover: #006af5;
   --background-zero: var(--constant-white);
   --foreground-primary: var(--constant-black);
   --outer-focus-border: 4px solid var(--constant-red);
   --inner-focus-border: 0 0 0 4px var(--constant-red) inset;
-}
-
-*:focus-visible {
-  outline: var(--outer-focus-border);
+  --container-width: 1024px;
+  --border-dropdown: var(--constant-darck);
 }
 
 a {

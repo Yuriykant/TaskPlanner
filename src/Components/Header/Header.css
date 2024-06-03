@@ -1,0 +1,59 @@
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header__user {
+  display: flex;
+  align-items: center;
+}
+
+.header__date {
+  text-align: center;
+}
+
+.header__title {
+  font-size: 24px;
+  color: var(--constant-accent);
+}
+
+.header__buttons {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.header__button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--constant-accent);
+}
+
+.header__logout {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.header__logout-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--constant-accent);
+  font-size: 24px;
+}
+
+.header__logout-button:hover {
+  color: var(--constant-accent-hover);
+}
+
+.header__username {
+  margin-left: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  color: var(--foreground-primary);
+}

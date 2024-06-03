@@ -1,0 +1,13 @@
+.calendar-header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin: 10px 0;
+  font-weight: bold;
+  color: var(--foreground-primary);
+}
+
+.calendar-header__elem {
+  text-align: center;
+  font-size: 18px;
+}

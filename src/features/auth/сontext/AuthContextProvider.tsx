@@ -14,7 +14,7 @@ import {
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
 import React, { createContext, FC, useContext, useState, useEffect } from 'react';
-import { TAuthContext } from './types';
+import { TAuthContext } from '../model/types';
 
 type TProps = {
   firebaseApp: FirebaseApp;

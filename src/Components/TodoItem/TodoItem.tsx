@@ -2,8 +2,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { ITodo } from 'types';
 import { useTodo } from '@features/todo/TodoContextProvider';
 import { useSnackbar } from '@features/todo/SnackbarMessage';
-// import { format } from 'date-fns';
-// import { ru } from 'date-fns/locale';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -15,9 +15,11 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import { Timestamp } from 'firebase/firestore';
 
-export const TodoItem: FC<ITodo> = ({ description, id, createdAt, updatedAt }) => {
+export const TodoItem: FC<ITodo> = ({ selectedDay, title, description, id, createdAt, updatedAt }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [taskTitle] = useState(title);
+  const [taskselectedDay] = useState(selectedDay);
   const [taskDescription, setTaskDescription] = useState(description);
   const { deleteTodo, updateTodo } = useTodo();
   const { showSnackbar } = useSnackbar();
@@ -28,9 +30,7 @@ export const TodoItem: FC<ITodo> = ({ description, id, createdAt, updatedAt }) =
     if (timestamp && timestamp.seconds) {
       const milliseconds = timestamp.seconds * 1000;
       const date = new Date(milliseconds);
-      console.log(date);
-
-      return '01:30 01 июня 2024';
+      return format(date, 'HH:mm dd MMMM yyyy', { locale: ru });
     }
     return null;
   };
@@ -54,7 +54,7 @@ export const TodoItem: FC<ITodo> = ({ description, id, createdAt, updatedAt }) =
   const onSaveEdit = async () => {
     if (taskDescription !== description) {
       try {
-        await updateTodo(id, { description: taskDescription });
+        await updateTodo(id, { description: taskDescription, title: taskTitle, selectedDay: taskselectedDay });
         showSnackbar('Задача успешно обновлена');
       } catch {
         showSnackbar('Ошибка при обновлении задачи:');
@@ -92,38 +92,58 @@ export const TodoItem: FC<ITodo> = ({ description, id, createdAt, updatedAt }) =
       ) : (
         <>
           <Typography
-            variant="h4"
+            variant="h6"
             sx={{
-              color: 'gray',
+              color: 'var(--foreground-primary)',
               marginRight: '10px',
-              fontSize: '22px',
+              fontSize: '16px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               cursor: 'pointer',
-            }}
-            onClick={() => setIsEdit(true)}
-          >
-            {description}
-          </Typography>
-          <Typography
-            variant="h4"
-            sx={{
-              color: 'gray',
-              fontSize: '12px',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              marginLeft: 'auto',
-              paddingRight: '20px',
+              backgroundColor: 'greenyellow',
+              borderRadius: '5px',
+              padding: '5px',
             }}
           >
-            {updatedAt ? `обновлен в: ${updatedDate}` : `создан: ${createdDate}`}
+            {selectedDay}
           </Typography>
+          <Box>
+            <Typography
+              variant="h6"
+              sx={{
+                color: 'gray',
+                fontSize: '14px',
+                cursor: 'pointer',
+              }}
+            >
+              {title}
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: 'gray',
+                fontSize: '14px',
+                cursor: 'pointer',
+              }}
+              onClick={() => setIsEdit(true)}
+            >
+              {description}
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: 'gray',
+                fontSize: '12px',
+              }}
+            >
+              {updatedAt ? `обновлен в: ${updatedDate}` : `создан: ${createdDate}`}
+            </Typography>
+          </Box>
         </>
       )}
       <Box>
-        <Checkbox edge="start" onChange={completeTodo} checked={isChecked} tabIndex={-1} />
+        <Checkbox sx={{ display: 'flex' }} edge="start" onChange={completeTodo} checked={isChecked} tabIndex={-1} />
         {!isEdit && (
           <IconButton edge="end" sx={{ mr: 0 }} onClick={() => setIsEdit(true)}>
             <EditIcon />
@@ -134,10 +154,10 @@ export const TodoItem: FC<ITodo> = ({ description, id, createdAt, updatedAt }) =
         </IconButton>
         {isEdit && (
           <>
-            <IconButton sx={{ fontSize: '18px', margin: '0 5px 0 20px' }} edge="end" onClick={onSaveEdit}>
+            <IconButton sx={{ fontSize: '14px', margin: '0 5px 0 20px' }} edge="end" onClick={onSaveEdit}>
               Сохранить
             </IconButton>
-            <IconButton sx={{ fontSize: '18px' }} edge="end" onClick={() => setIsEdit(false)}>
+            <IconButton sx={{ fontSize: '14px' }} edge="end" onClick={() => setIsEdit(false)}>
               Отменить
             </IconButton>
           </>

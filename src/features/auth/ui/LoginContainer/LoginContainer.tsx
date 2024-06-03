@@ -1,8 +1,9 @@
 import React, { FC, Reducer, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ALLOWED_OAUTH_PROVIDERS, useAuth } from '../AuthContextProvider';
-import { validateEmail } from './utils';
-import { LoginForm, TLoginField } from '@Components/LoginForm/LoginForm';
+import { ALLOWED_OAUTH_PROVIDERS, useAuth } from '../../сontext/AuthContextProvider';
+import { validateEmail } from '../../utils/validateEmail';
+import { LoginForm, TLoginField } from '../LoginForm/LoginForm';
+import { useSnackbar } from '@features/todo/SnackbarMessage';
 
 import './LoginContainer.css';
 import Typography from '@mui/material/Typography';
@@ -11,7 +12,6 @@ import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LoginIcon from '@mui/icons-material/Login';
 import Button from '@mui/material/Button';
-import { useSnackbar } from '@features/todo/SnackbarMessage';
 
 type TLoginFieldState = Omit<TLoginField, 'onChange'>;
 

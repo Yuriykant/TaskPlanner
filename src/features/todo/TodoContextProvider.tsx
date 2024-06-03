@@ -1,8 +1,7 @@
 import { createTodoApi, deleteTodoApi, getTodosApi, updateTodoApi } from '../../App/api';
 import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react';
 import { ITodo } from 'types';
-import { useAuth } from '@features/auth/AuthContextProvider';
-import { useSnackbar } from './SnackbarMessage';
+import { useAuth } from '@features/auth/сontext/AuthContextProvider';
 
 interface ITodoContext {
   todos: ITodo[];
@@ -27,8 +26,6 @@ export const TodoContextProvider: FC<{ children: ReactNode }> = ({ children }) =
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user } = useAuth();
 
-  const { showSnackbar } = useSnackbar();
-
   useEffect(() => {
     setTodo([]);
     if (user) {
@@ -44,7 +41,7 @@ export const TodoContextProvider: FC<{ children: ReactNode }> = ({ children }) =
     getTodosApi()
       .then(setTodo)
       .catch((error) => {
-        showSnackbar('ошибка сети или некорректный ответ от сервера');
+        console.error('ошибка сети или некорректный ответ от сервера');
         throw error;
       });
   };
