@@ -1,9 +1,9 @@
 import React, { FC, Reducer, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ALLOWED_OAUTH_PROVIDERS, useAuth } from '../../сontext/AuthContextProvider';
+import { useAuth } from '../../сontext/AuthContextProvider';
 import { validateEmail } from '../../utils/validateEmail';
 import { LoginForm, TLoginField } from '../LoginForm/LoginForm';
-import { useSnackbar } from '@features/todo/SnackbarMessage';
+import { useSnackbar } from '@features/todo/context/SnackbarMessage';
 
 import './LoginContainer.css';
 import Typography from '@mui/material/Typography';
@@ -113,6 +113,11 @@ export const LoginContainer: FC<Props> = ({ type = 'authorization' }) => {
     }
   };
 
+  const providerDictionary = {
+    [ProviderId.GOOGLE]: 'Google',
+    [ProviderId.GITHUB]: 'GitHub',
+  };
+
   return (
     <div className={'login-container'}>
       <Typography variant="h4" color="gray" sx={{ textAlign: 'center', mb: 2 }}>
@@ -126,7 +131,7 @@ export const LoginContainer: FC<Props> = ({ type = 'authorization' }) => {
       />
       {type === 'authorization' ? (
         <div className="login-oauth-container">
-          {Object.keys(ALLOWED_OAUTH_PROVIDERS).map((key) => {
+          {Object.entries(providerDictionary).map(([key, value]) => {
             return (
               <Button
                 fullWidth
@@ -139,7 +144,7 @@ export const LoginContainer: FC<Props> = ({ type = 'authorization' }) => {
                 onClick={onOauthClick}
                 sx={{ mb: 1, color: 'gray', borderColor: 'lightgray' }}
               >
-                Войти с помощью {key.split('.')[0]}
+                Войти с помощью {value}
               </Button>
             );
           })}

@@ -1,7 +1,8 @@
-import { createTodoApi, deleteTodoApi, getTodosApi, updateTodoApi } from '../../App/api';
 import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react';
+import { createTodoApi, deleteTodoApi, getWeekTodosApi, updateTodoApi } from '../../../App/api';
 import { ITodo } from 'types';
 import { useAuth } from '@features/auth/сontext/AuthContextProvider';
+import { getWeekFromDate } from '../utils/weekUtils';
 
 interface ITodoContext {
   todos: ITodo[];
@@ -9,6 +10,8 @@ interface ITodoContext {
   deleteTodo: (id: string) => Promise<any>;
   updateTodo: (id: string, data: Omit<ITodo, 'id'>) => Promise<any>;
   isLoading: boolean;
+  pickDate: Date | null;
+  setPickDate: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
 const TodoContext = createContext<ITodoContext>({
@@ -17,6 +20,8 @@ const TodoContext = createContext<ITodoContext>({
   deleteTodo: () => Promise.reject(),
   updateTodo: () => Promise.reject(),
   isLoading: false,
+  pickDate: null,
+  setPickDate: () => {},
 });
 
 export const useTodo = (): ITodoContext => useContext(TodoContext);
@@ -25,25 +30,34 @@ export const TodoContextProvider: FC<{ children: ReactNode }> = ({ children }) =
   const [todos, setTodo] = useState<ITodo[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user } = useAuth();
+  const [pickDate, setPickDate] = useState<Date | null>(null);
 
   useEffect(() => {
-    setTodo([]);
-    if (user) {
-      setIsLoading(true);
-      getTodosApi()
-        .then(setTodo)
-        .finally(() => setIsLoading(false));
+    if (pickDate) {
+      const { start, end } = getWeekFromDate(pickDate);
+
+      setTodo([]);
+      if (user) {
+        setIsLoading(true);
+
+        getWeekTodosApi(start, end)
+          .then(setTodo)
+          .finally(() => setIsLoading(false));
+      }
     }
-  }, [user]);
+  }, [user, pickDate]);
 
   // Вспомогательная функция для единообразной обработки обновления, удаления и создания задач
   const updateTodoList = (): void => {
-    getTodosApi()
-      .then(setTodo)
-      .catch((error) => {
-        console.error('ошибка сети или некорректный ответ от сервера');
-        throw error;
-      });
+    if (pickDate) {
+      const { start, end } = getWeekFromDate(pickDate);
+      getWeekTodosApi(start, end)
+        .then(setTodo)
+        .catch((error) => {
+          console.error('ошибка сети или некорректный ответ от сервера');
+          throw error;
+        });
+    }
   };
 
   const createTodo = (data: Omit<ITodo, 'id'>) => {
@@ -64,6 +78,8 @@ export const TodoContextProvider: FC<{ children: ReactNode }> = ({ children }) =
     deleteTodo,
     updateTodo,
     isLoading,
+    pickDate,
+    setPickDate,
   };
 
   return <TodoContext.Provider value={todoContextValue}>{children}</TodoContext.Provider>;

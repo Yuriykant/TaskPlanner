@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { TodoContainer } from '@Components/TodoContainer/TodoContainer';
+import { TodoContainer } from '@features/todo/ui/TodoContainer/TodoContainer';
 import { PrivateRoute } from '@features/auth/ui/PrivateRoute/PrivateRoute';
 import { LoginContainer } from '@features/auth/ui/LoginContainer/LoginContainer';
 import '../../common.css';

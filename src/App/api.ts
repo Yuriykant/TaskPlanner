@@ -40,6 +40,30 @@ export const getTodosApi = async (): Promise<ITodo[]> => {
   return todos;
 };
 
+export const getWeekTodosApi = async (startDate: Date, endDate: Date): Promise<ITodo[]> => {
+  const db = getFirestore();
+  const auth = getAuth();
+  const todos: ITodo[] = [];
+  const ref = collection(db, 'todo');
+  const q = query(
+    ref,
+    where('userId', '==', auth.currentUser?.uid),
+    where('selectedDay', '>=', startDate),
+    where('selectedDay', '<=', endDate),
+    orderBy('createdAt')
+  );
+  try {
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data() as Omit<ITodo, 'id'>;
+      todos.push({ id: doc.id, ...data });
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+  return todos;
+};
+
 export const deleteTodoApi = async (id: string): Promise<any> => {
   const db = getFirestore();
   try {

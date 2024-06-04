@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import { App } from './App/components/App/App';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { TodoContextProvider } from './features/todo/TodoContextProvider';
+import { TodoContextProvider } from './features/todo/context/TodoContextProvider';
 import { AuthContextProvider } from '@features/auth/сontext/AuthContextProvider';
 import { initializeAPI } from './App/api';
 

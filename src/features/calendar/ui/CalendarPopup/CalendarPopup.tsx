@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import './CalendarPopup.css';
-import { useTodo } from '../../../../features/todo/TodoContextProvider';
+import { useTodo } from '../../../todo/context/TodoContextProvider';
 
 interface CalendarPopupProps {
   onClose: VoidFunction;
@@ -12,10 +12,6 @@ export const CalendarPopup: FC<CalendarPopupProps> = ({ onClose, selectedDate })
   const [titleValue, setTitleValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
   const [inputError, setInputError] = useState('');
-
-  const day = selectedDate.getDay();
-  const months = selectedDate.getMonth();
-  const data = `${day}.${months + 1}`;
 
   const { createTodo } = useTodo();
 
@@ -29,7 +25,7 @@ export const CalendarPopup: FC<CalendarPopupProps> = ({ onClose, selectedDate })
     await createTodo({
       description: descriptionValue,
       title: titleValue,
-      selectedDay: data,
+      selectedDay: selectedDate,
     });
 
     setTitleValue('');

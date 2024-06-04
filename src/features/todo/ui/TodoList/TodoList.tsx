@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { TodoItem } from '@Components/TodoItem/TodoItem';
-import { useTodo } from '@features/todo/TodoContextProvider';
+import { TodoItem } from '@features/todo/ui/TodoItem/TodoItem';
+import { useTodo } from '@features/todo/context/TodoContextProvider';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ITodo } from 'types';
-import { useTodo } from '@features/todo/TodoContextProvider';
-import { useSnackbar } from '@features/todo/SnackbarMessage';
+import { ITodoItem } from 'types';
+import { useTodo } from '@features/todo/context/TodoContextProvider';
+import { useSnackbar } from '@features/todo/context/SnackbarMessage';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
@@ -15,16 +15,16 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import { Timestamp } from 'firebase/firestore';
 
-export const TodoItem: FC<ITodo> = ({ selectedDay, title, description, id, createdAt, updatedAt }) => {
+export const TodoItem: FC<ITodoItem> = ({ selectedDay, title, description, id, createdAt, updatedAt }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [taskTitle] = useState(title);
-  const [taskselectedDay] = useState(selectedDay);
+  const [taskselectedDay, setTaskselectedDay] = useState(selectedDay);
   const [taskDescription, setTaskDescription] = useState(description);
-  const { deleteTodo, updateTodo } = useTodo();
-  const { showSnackbar } = useSnackbar();
   const [createdDate, setCreatedDate] = useState('');
   const [updatedDate, setUpdatedDate] = useState('');
+  const { deleteTodo, updateTodo } = useTodo();
+  const { showSnackbar } = useSnackbar();
 
   const formatDate = (timestamp: Timestamp) => {
     if (timestamp && timestamp.seconds) {
@@ -50,6 +50,13 @@ export const TodoItem: FC<ITodo> = ({ selectedDay, title, description, id, creat
       }
     }
   }, [createdAt]);
+
+  useEffect(() => {
+    if (selectedDay) {
+      const formattedDate = formatDate(selectedDay);
+      setTaskselectedDay(formattedDate);
+    }
+  }, [selectedDay]);
 
   const onSaveEdit = async () => {
     if (taskDescription !== description) {
@@ -82,6 +89,11 @@ export const TodoItem: FC<ITodo> = ({ selectedDay, title, description, id, creat
     }, 0);
   };
 
+  let dateString;
+  if (typeof taskselectedDay === 'string') {
+    dateString = taskselectedDay.slice(6);
+  }
+
   return (
     <Paper
       elevation={2}
@@ -95,7 +107,6 @@ export const TodoItem: FC<ITodo> = ({ selectedDay, title, description, id, creat
             variant="h6"
             sx={{
               color: 'var(--foreground-primary)',
-              marginRight: '10px',
               fontSize: '16px',
               display: 'flex',
               justifyContent: 'center',
@@ -103,10 +114,10 @@ export const TodoItem: FC<ITodo> = ({ selectedDay, title, description, id, creat
               cursor: 'pointer',
               backgroundColor: 'greenyellow',
               borderRadius: '5px',
-              padding: '5px',
+              padding: '0 5px',
             }}
           >
-            {selectedDay}
+            {dateString}
           </Typography>
           <Box>
             <Typography

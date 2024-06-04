@@ -1,11 +1,12 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { CalendarHeader } from '../CalendarHeader/CalendarHeader';
 import { CalendarBody } from '../CalendarBody/CalendarBody';
 import { months } from '../../utils/calendarUtils';
 import './Calendar.css';
 import { ModalWrapper } from '@Components/ModalWrapper/ModalWrapper';
 import { CalendarPopup } from '../CalendarPopup/CalendarPopup';
-import { TodoList } from '@Components/TodoList/TodoList';
+import { TodoList } from '@features/todo/ui/TodoList/TodoList';
+import { useTodo } from '@features/todo/context/TodoContextProvider';
 
 interface CalendarProps {
   currentDate: Date;
@@ -15,7 +16,7 @@ export const Calendar: FC<CalendarProps> = ({ currentDate }) => {
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [modalShown, setModalShown] = useState(false);
   const selectedCellRef = useRef<HTMLButtonElement>(null);
-  console.log(selectedDate);
+  const { setPickDate } = useTodo();
 
   const handleCellClick = (date: Date) => {
     setSelectedDate(date);
@@ -24,6 +25,10 @@ export const Calendar: FC<CalendarProps> = ({ currentDate }) => {
   const handleAddTaskClick = () => {
     setModalShown(true);
   };
+
+  useEffect(() => {
+    setPickDate(selectedDate);
+  }, [selectedDate, setPickDate]);
 
   return (
     <div>
