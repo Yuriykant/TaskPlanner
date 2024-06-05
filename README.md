@@ -59,13 +59,14 @@
 2. Перейдите в папку проекта: `cd project-directory`
 3. Установите зависимости: `npm install`
 4. Запустите приложение в режиме разработки: `npm run start`
-5. Откройте приложение в браузере по адресу: [http://localhost:3000](http://localhost:3000)
+5. Откройте приложение в браузере по адресу: [http://localhost:8080](http://localhost:8080)
 
 6. Команда для сборки docker image `docker build -t airnet .`
 7. Команда для запуска docker container `docker run --rm --name myproject -p 3000:8080 -d airnet`
-8. Команда для просмотра запущенных и остановленных контейнеров `docker ps -a`
-9. Команда для остановки контейнера `docker stop myproject`
-10. Чтобы удалить образ Docker `docker rmi ОБРАЗ`
+8. Перейти можно http://localhost:3000
+9. Команда для просмотра запущенных и остановленных контейнеров `docker ps -a`
+10. Команда для остановки контейнера `docker stop myproject`
+11. Чтобы удалить образ Docker `docker rmi ОБРАЗ`
 
 ## CI/CD
 
