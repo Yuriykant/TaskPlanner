@@ -1,5 +1,3 @@
-// import { Timestamp } from 'firebase/firestore';
-
 export interface ITodo {
   id: string;
   title: string;
@@ -8,8 +6,4 @@ export interface ITodo {
   cheked?: boolean; // для дальнейшего функционала по завершению задачи( на будущее)
   createdAt?: any;
   updatedAt?: any;
-}
-
-export interface ITodoItem extends Omit<ITodo, 'selectedDay'> {
-  selectedDay: any;
 }

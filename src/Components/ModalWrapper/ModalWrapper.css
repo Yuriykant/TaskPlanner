@@ -39,7 +39,7 @@
   opacity: 0;
 }
 
-@media all and (min-width: 1024px) {
+@media all and (min-width: 768px) {
   .modal-wrapper__children {
     padding-left: 0;
     padding-right: 0;

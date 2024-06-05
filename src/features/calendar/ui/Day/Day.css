@@ -36,3 +36,14 @@
 .weekend {
   background: var(--color-weekend);
 }
+
+@media (max-width: 768px) {
+  .day__cell-container {
+    width: 100%;
+    justify-content: space-around;
+    font-size: 60px;
+  }
+  .day__taskAdd {
+    padding: 30% 0 0 70%;
+  }
+}

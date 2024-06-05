@@ -24,7 +24,6 @@ export const generateCalendarDays = (currentDate: Date): Date[] => {
 
   firstDayOfTheView.setDate(firstDayOfTheView.getDate() - (firstDayOfTheMonth.getDay() || 7) + 1);
 
-  // Создаем массив дней для отображения
   const dateArray = [...Array(VISIBLE_CELLS_AMOUNT)].map((_, index) => {
     const day = new Date(firstDayOfTheView);
     day.setDate(day.getDate() + index);

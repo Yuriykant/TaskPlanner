@@ -49,7 +49,7 @@ export const Header: FC<HeaderProps> = ({ currentDate, onPrev, onToday, onNext }
   return (
     <div className="header">
       <div className="header__user">
-        <Avatar src={avatar} alt={userName} sx={{ marginLeft: '10px', width: 60, height: 60 }} />
+        <Avatar src={avatar} alt={userName} sx={{ width: 60, height: 60 }} />
         <span className="header__username">{userName}</span>
       </div>
       <div className="header__date">
@@ -58,19 +58,19 @@ export const Header: FC<HeaderProps> = ({ currentDate, onPrev, onToday, onNext }
         </h1>
         <div className="header__buttons">
           <button className="header__button" onClick={onPrev}>
-            <ArrowBackIosOutlinedIcon />
+            <ArrowBackIosOutlinedIcon sx={{ fontSize: 35 }} />
           </button>
           <button className="header__button" onClick={onToday}>
-            текущий месяц
+            <span className="header__span">текущий месяц</span>
           </button>
           <button className="header__button" onClick={onNext}>
-            <ArrowForwardIosOutlinedIcon />
+            <ArrowForwardIosOutlinedIcon sx={{ fontSize: 35 }} />
           </button>
         </div>
       </div>
       <div className="header__logout">
         <button className="header__logout-button" onClick={handleLogout}>
-          <LogoutIcon />
+          <LogoutIcon sx={{ fontSize: 35 }} />
         </button>
       </div>
     </div>

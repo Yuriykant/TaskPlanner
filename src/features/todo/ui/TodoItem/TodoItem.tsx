@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ITodoItem } from 'types';
+import { ITodo } from 'types';
 import { useTodo } from '@features/todo/context/TodoContextProvider';
 import { useSnackbar } from '@features/todo/context/SnackbarMessage';
 import { format } from 'date-fns';
@@ -15,7 +15,7 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import { Timestamp } from 'firebase/firestore';
 
-export const TodoItem: FC<ITodoItem> = ({ selectedDay, title, description, id, createdAt, updatedAt }) => {
+export const TodoItem: FC<ITodo> = ({ selectedDay, title, description, id, createdAt, updatedAt }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [taskTitle] = useState(title);
@@ -52,11 +52,16 @@ export const TodoItem: FC<ITodoItem> = ({ selectedDay, title, description, id, c
   }, [createdAt]);
 
   useEffect(() => {
-    if (selectedDay) {
-      const formattedDate = formatDate(selectedDay);
-      setTaskselectedDay(formattedDate);
+    if (selectedDay instanceof Timestamp) {
+      const date = selectedDay.toDate();
+      setTaskselectedDay(date);
     }
   }, [selectedDay]);
+
+  let markerDay;
+  if (taskselectedDay instanceof Date) {
+    markerDay = taskselectedDay;
+  }
 
   const onSaveEdit = async () => {
     if (taskDescription !== description) {
@@ -89,11 +94,6 @@ export const TodoItem: FC<ITodoItem> = ({ selectedDay, title, description, id, c
     }, 0);
   };
 
-  let dateString;
-  if (typeof taskselectedDay === 'string') {
-    dateString = taskselectedDay.slice(6);
-  }
-
   return (
     <Paper
       elevation={2}
@@ -107,24 +107,27 @@ export const TodoItem: FC<ITodoItem> = ({ selectedDay, title, description, id, c
             variant="h6"
             sx={{
               color: 'var(--foreground-primary)',
-              fontSize: '16px',
+              width: 5,
+              fontWeight: 'bold',
+              fontSize: 'var(--font-normal)',
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
               cursor: 'pointer',
-              backgroundColor: 'greenyellow',
+              backgroundColor: 'var(--constant-greenyellow)',
               borderRadius: '5px',
-              padding: '0 5px',
+              padding: '0 10px',
             }}
           >
-            {dateString}
+            {markerDay?.getDate()} {markerDay && markerDay.getMonth() + 1}
           </Typography>
           <Box>
             <Typography
               variant="h6"
               sx={{
                 color: 'gray',
-                fontSize: '14px',
+                fontSize: 'var(--font-normal)',
                 cursor: 'pointer',
               }}
             >
@@ -134,7 +137,7 @@ export const TodoItem: FC<ITodoItem> = ({ selectedDay, title, description, id, c
               variant="h6"
               sx={{
                 color: 'gray',
-                fontSize: '14px',
+                fontSize: 'var(--font-normal)',
                 cursor: 'pointer',
               }}
               onClick={() => setIsEdit(true)}
@@ -145,7 +148,7 @@ export const TodoItem: FC<ITodoItem> = ({ selectedDay, title, description, id, c
               variant="h6"
               sx={{
                 color: 'gray',
-                fontSize: '12px',
+                fontSize: 'var(--font-small)',
               }}
             >
               {updatedAt ? `обновлен в: ${updatedDate}` : `создан: ${createdDate}`}
@@ -154,21 +157,56 @@ export const TodoItem: FC<ITodoItem> = ({ selectedDay, title, description, id, c
         </>
       )}
       <Box>
-        <Checkbox sx={{ display: 'flex' }} edge="start" onChange={completeTodo} checked={isChecked} tabIndex={-1} />
+        <Checkbox
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            '& .MuiSvgIcon-root': {
+              fontSize: '30px',
+            },
+            '@media (max-width: 768px)': {
+              '& .MuiSvgIcon-root': {
+                fontSize: '50px',
+              },
+            },
+          }}
+          edge="start"
+          onChange={completeTodo}
+          checked={isChecked}
+          tabIndex={-1}
+        />
         {!isEdit && (
-          <IconButton edge="end" sx={{ mr: 0 }} onClick={() => setIsEdit(true)}>
-            <EditIcon />
+          <IconButton edge="end" onClick={() => setIsEdit(true)}>
+            <EditIcon
+              sx={{
+                mr: 0,
+                fontSize: {
+                  xs: 60,
+                  sm: 40,
+                  md: 20,
+                },
+              }}
+            />
           </IconButton>
         )}
         <IconButton edge="end" onClick={onDeleteTodo}>
-          <DeleteForeverIcon />
+          <DeleteForeverIcon
+            sx={{
+              mr: 0,
+              fontSize: {
+                xs: 60,
+                sm: 40,
+                md: 20,
+              },
+            }}
+          />
         </IconButton>
         {isEdit && (
           <>
-            <IconButton sx={{ fontSize: '14px', margin: '0 5px 0 20px' }} edge="end" onClick={onSaveEdit}>
+            <IconButton sx={{ fontSize: 'var(--font-small)', margin: '0 5px 0 20px' }} edge="end" onClick={onSaveEdit}>
               Сохранить
             </IconButton>
-            <IconButton sx={{ fontSize: '14px' }} edge="end" onClick={() => setIsEdit(false)}>
+            <IconButton edge="end" onClick={() => setIsEdit(false)}>
               Отменить
             </IconButton>
           </>

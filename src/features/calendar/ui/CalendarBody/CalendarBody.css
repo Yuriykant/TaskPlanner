@@ -1,7 +1,14 @@
-.gridWrapper {
+.calendarbody-wrapper {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
   justify-items: center;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .calendarbody-wrapper {
+    gap: 30px;
+    margin-bottom: 10px;
+  }
 }

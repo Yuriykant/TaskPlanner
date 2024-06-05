@@ -54,7 +54,7 @@ export const CalendarBody: FC<CalendarBodyProps> = ({
   };
 
   return (
-    <div className="gridWrapper">
+    <div className="calendarbody-wrapper">
       {dateArray.map((date, index) => {
         const today = date.toDateString() === new Date().toDateString();
         const untilToday = date < new Date() && !today;

@@ -16,6 +16,8 @@
   --inner-focus-border: 0 0 0 4px var(--constant-red) inset;
   --container-width: 1024px;
   --border-dropdown: var(--constant-darck);
+  --font-normal: 14px;
+  --font-small: 12px;
 }
 
 a {
@@ -29,4 +31,11 @@ body {
   line-height: 20px;
   font-weight: 400;
   color: var(--foreground-primary);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-normal: 40px;
+    --font-small: 30px;
+  }
 }
