@@ -6,7 +6,7 @@
 
 ## Демо
 
-Вы можете просмотреть демонстрацию проекта, перейдя по ссылке: [TaskPlanner](<[https://kantcodetodo.karpovdns.net](https://task-planner-gamma.vercel.app/login)>) В приложении вы можете авторизоваться или пойти под своей учетной записью GitHub и Google
+Вы можете просмотреть демонстрацию проекта, перейдя по ссылке: [TaskPlanner](https://task-planner-gamma.vercel.app) В приложении вы можете авторизоваться или пойти под своей учетной записью GitHub и Google
 
 ## Задача
 
